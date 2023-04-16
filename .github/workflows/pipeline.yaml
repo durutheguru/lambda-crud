@@ -127,13 +127,19 @@ jobs:
 
       - name: Deploy to feature stack in the testing account
         shell: bash
+        env:
+          ENV: prod
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
+          DATABASE_PWD: ${{ secrets.DATABASE_PWD }}
+          JASYPT_PWD: ${{ secrets.JASYPT_PWD }}
         run: |
           sam deploy --stack-name $(echo ${GITHUB_REF##*/} | tr -cd '[a-zA-Z0-9-]') \
             --capabilities CAPABILITY_IAM \
             --region ${TESTING_REGION} \
             --s3-bucket ${TESTING_ARTIFACTS_BUCKET} \
             --no-fail-on-empty-changeset \
-            --role-arn ${TESTING_CLOUDFORMATION_EXECUTION_ROLE}
+            --role-arn ${TESTING_CLOUDFORMATION_EXECUTION_ROLE} \
+            --parameter-overrides Env=${ENV} JasyptPwd=${JASYPT_PWD} DbUser=${DATABASE_USER} DbPwd=${DATABASE_PWD}
 
 
 
@@ -222,6 +228,11 @@ jobs:
           role-skip-session-tagging: true
 
       - name: Deploy to testing account
+        env:
+          ENV: prod
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
+          DATABASE_PWD: ${{ secrets.DATABASE_PWD }}
+          JASYPT_PWD: ${{ secrets.JASYPT_PWD }}
         run: |
           sam deploy --stack-name ${TESTING_STACK_NAME} \
             --template packaged-testing.yaml \
@@ -229,7 +240,8 @@ jobs:
             --region ${TESTING_REGION} \
             --s3-bucket ${TESTING_ARTIFACTS_BUCKET} \
             --no-fail-on-empty-changeset \
-            --role-arn ${TESTING_CLOUDFORMATION_EXECUTION_ROLE}
+            --role-arn ${TESTING_CLOUDFORMATION_EXECUTION_ROLE} \
+            --parameter-overrides Env=${ENV} JasyptPwd=${JASYPT_PWD} DbUser=${DATABASE_USER} DbPwd=${DATABASE_PWD}
 
 
 
@@ -272,6 +284,11 @@ jobs:
           role-skip-session-tagging: true
 
       - name: Deploy to production account
+        env:
+          ENV: prod
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
+          DATABASE_PWD: ${{ secrets.DATABASE_PWD }}
+          JASYPT_PWD: ${{ secrets.JASYPT_PWD }}
         run: |
           sam deploy --stack-name ${PROD_STACK_NAME} \
             --template packaged-prod.yaml \
@@ -279,7 +296,8 @@ jobs:
             --region ${PROD_REGION} \
             --s3-bucket ${PROD_ARTIFACTS_BUCKET} \
             --no-fail-on-empty-changeset \
-            --role-arn ${PROD_CLOUDFORMATION_EXECUTION_ROLE}
+            --role-arn ${PROD_CLOUDFORMATION_EXECUTION_ROLE} \
+            --parameter-overrides Env=${ENV} JasyptPwd=${JASYPT_PWD} DbUser=${DATABASE_USER} DbPwd=${DATABASE_PWD}
 
 
 
