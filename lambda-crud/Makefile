@@ -1,5 +1,5 @@
 
-COMMANDS = mvn clean package && \
+COMMANDS = mvn clean package -s settings.xml && \
            	mvn dependency:copy-dependencies -DexcludeScope=provided && \
            	rsync -av ./target/classes/ $(ARTIFACTS_DIR)/
 

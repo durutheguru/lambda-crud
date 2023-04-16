@@ -61,9 +61,9 @@ jobs:
         run: |
           cd ./lambda-crud-deps
           export MAVEN_OPTS="--add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED"
-          mvn clean deploy -s ../settings.xml -f pom.xml
+          mvn clean deploy -s settings.xml -f pom.xml
           cd ../lambda-crud
-          mvn clean package -s ../settings.xml -f pom.xml
+          mvn clean package -s settings.xml -f pom.xml
           
 
 
