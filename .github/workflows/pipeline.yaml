@@ -239,7 +239,7 @@ jobs:
           JASYPT_PWD: ${{ secrets.JASYPT_PWD }}
         run: |
           sam delete --stack-name ${TESTING_STACK_NAME} \
-          --region ${TESTING_REGION} \ 
+          --region ${TESTING_REGION} \
           --no-prompts || true \
           && \
           sam deploy --stack-name ${TESTING_STACK_NAME} \
@@ -299,7 +299,7 @@ jobs:
           JASYPT_PWD: ${{ secrets.JASYPT_PWD }}
         run: |
           sam delete --stack-name ${PROD_STACK_NAME} \
-          --region ${PROD_REGION} \ 
+          --region ${PROD_REGION} \
           --no-prompts || true \
           && \
           sam deploy --stack-name ${PROD_STACK_NAME} \
