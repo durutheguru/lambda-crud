@@ -15,7 +15,6 @@ lint = true
 
 [default.deploy.parameters]
 capabilities = "CAPABILITY_IAM"
-confirm_changeset = true
 no_fail_on_empty_changeset = true
 
 
@@ -33,7 +32,6 @@ warm_containers = "EAGER"
 stack_name = "lambda-crud"
 s3_prefix = "lambda-crud"
 region = "us-east-1"
-confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
 parameter_overrides = "Env=\"prod\" DbName=\"lambda_crud\" JasyptPwd=\"JDURU\" DbUrl=\"jdbc:mysql://docker.for.mac.localhost:3306/lambda_crud?createDatabaseIfNotExist=true&serverTimezone=UTC\" DbUser=\"root\""
 image_repositories = []
