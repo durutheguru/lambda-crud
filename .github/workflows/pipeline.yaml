@@ -300,6 +300,3 @@ jobs:
             --parameter-overrides Env=${ENV} JasyptPwd=${JASYPT_PWD} DbId=lambdacrudprod DbUser=${DATABASE_USER} DbPwd=${DATABASE_PWD}
 
 
-
-
-
