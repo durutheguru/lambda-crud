@@ -133,7 +133,10 @@ jobs:
           DATABASE_PWD: ${{ secrets.DATABASE_PWD }}
           JASYPT_PWD: ${{ secrets.JASYPT_PWD }}
         run: |
-          sam delete --stack-name $(echo ${GITHUB_REF##*/} | tr -cd '[a-zA-Z0-9-]') --no-confirm-changeset --no-confirm-resources && \
+          sam delete --stack-name $(echo ${GITHUB_REF##*/} | tr -cd '[a-zA-Z0-9-]') \
+          --region ${TESTING_REGION} \
+          --no-prompts || true \
+          && \
           sam deploy --stack-name $(echo ${GITHUB_REF##*/} | tr -cd '[a-zA-Z0-9-]') \
             --capabilities CAPABILITY_IAM \
             --region ${TESTING_REGION} \
@@ -235,7 +238,10 @@ jobs:
           DATABASE_PWD: ${{ secrets.DATABASE_PWD }}
           JASYPT_PWD: ${{ secrets.JASYPT_PWD }}
         run: |
-          sam delete --stack-name ${TESTING_STACK_NAME} --no-confirm-changeset --no-confirm-resources && \
+          sam delete --stack-name ${TESTING_STACK_NAME} \
+          --region ${TESTING_REGION} \ 
+          --no-prompts || true \
+          && \
           sam deploy --stack-name ${TESTING_STACK_NAME} \
             --template packaged-testing.yaml \
             --capabilities CAPABILITY_IAM \
@@ -292,7 +298,10 @@ jobs:
           DATABASE_PWD: ${{ secrets.DATABASE_PWD }}
           JASYPT_PWD: ${{ secrets.JASYPT_PWD }}
         run: |
-          sam delete --stack-name ${PROD_STACK_NAME} --no-confirm-changeset --no-confirm-resources && \
+          sam delete --stack-name ${PROD_STACK_NAME} \
+          --region ${PROD_REGION} \ 
+          --no-prompts || true \
+          && \
           sam deploy --stack-name ${PROD_STACK_NAME} \
             --template packaged-prod.yaml \
             --capabilities CAPABILITY_IAM \
