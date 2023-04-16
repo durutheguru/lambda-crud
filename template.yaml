@@ -14,6 +14,9 @@ Parameters:
       - local
       - staging
       - prod
+  DbId:
+    Type: String
+    Default: lambdacrud
   DbName:
     Type: String
     Default: lambda_crud
@@ -138,7 +141,7 @@ Resources:
     Properties:
       AllocatedStorage: 10
       DBInstanceClass: db.t2.micro
-      DBInstanceIdentifier: lambdacrud
+      DBInstanceIdentifier: !Ref DbId
       Engine: MySQL
       EngineVersion: '8.0'
       MasterUsername: !Ref DbUser

@@ -139,7 +139,7 @@ jobs:
             --s3-bucket ${TESTING_ARTIFACTS_BUCKET} \
             --no-fail-on-empty-changeset \
             --role-arn ${TESTING_CLOUDFORMATION_EXECUTION_ROLE} \
-            --parameter-overrides Env=${ENV} JasyptPwd=${JASYPT_PWD} DbUser=${DATABASE_USER} DbPwd=${DATABASE_PWD}
+            --parameter-overrides Env=${ENV} JasyptPwd=${JASYPT_PWD} DbId=lambda_crud_dev DbUser=${DATABASE_USER} DbPwd=${DATABASE_PWD}
 
 
 
@@ -241,7 +241,7 @@ jobs:
             --s3-bucket ${TESTING_ARTIFACTS_BUCKET} \
             --no-fail-on-empty-changeset \
             --role-arn ${TESTING_CLOUDFORMATION_EXECUTION_ROLE} \
-            --parameter-overrides Env=${ENV} JasyptPwd=${JASYPT_PWD} DbUser=${DATABASE_USER} DbPwd=${DATABASE_PWD}
+            --parameter-overrides Env=${ENV} JasyptPwd=${JASYPT_PWD} DbId=lambda_crud_stage DbUser=${DATABASE_USER} DbPwd=${DATABASE_PWD}
 
 
 
@@ -297,7 +297,7 @@ jobs:
             --s3-bucket ${PROD_ARTIFACTS_BUCKET} \
             --no-fail-on-empty-changeset \
             --role-arn ${PROD_CLOUDFORMATION_EXECUTION_ROLE} \
-            --parameter-overrides Env=${ENV} JasyptPwd=${JASYPT_PWD} DbUser=${DATABASE_USER} DbPwd=${DATABASE_PWD}
+            --parameter-overrides Env=${ENV} JasyptPwd=${JASYPT_PWD} DbId=lambda_crud_prod DbUser=${DATABASE_USER} DbPwd=${DATABASE_PWD}
 
 
 
