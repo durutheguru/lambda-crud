@@ -1,0 +1,158 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  lambda-crud
+
+  Sample SAM Template for lambda-crud
+
+
+Parameters:
+  Env:
+    Type: String
+    Default: local
+    AllowedValues:
+      - local
+      - staging
+      - prod
+  DbName:
+    Type: String
+    Default: lambda_crud
+  JasyptPwd:
+    Type: String
+    Default: JJ
+  DbUrl:
+    Type: String
+    Default: "jdbc:mysql://docker.for.mac.localhost:3306/lambda_crud?createDatabaseIfNotExist=true&serverTimezone=UTC"
+  DbUser:
+    Type: String
+    Default: "root"
+  DbPwd:
+    Type: String
+    Default: ""
+    NoEcho: true
+
+
+
+Conditions:
+  IsLocal: !Equals [!Ref Env, "local"]
+
+
+
+Globals:
+  Function:
+    Runtime: java11
+    CodeUri: lambda-crud
+    MemorySize: 1024
+    Timeout: 90
+    Layers:
+      - Ref: LambdaCrudLayer
+    Environment:
+      Variables:
+        ENV: !Ref Env
+        JASYPT_PWD: !Ref JasyptPwd
+        DB_URL: !If [IsLocal, !Ref DbUrl, !Sub "jdbc:mysql://${DataSource.Endpoint.Address}:3306/lambda_crud?createDatabaseIfNotExist=true&serverTimezone=UTC"]
+        DB_USER: !Ref DbUser
+        DB_PWD: !Ref DbPwd
+
+
+Resources:
+
+  ApiGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      Cors:
+        AllowOrigin: "'*'"
+
+
+
+  LambdaCrudLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: lambda-crud-deps
+      CompatibleRuntimes:
+        - java11
+    Metadata:
+      BuildMethod: java11
+
+
+  SavePublisherHandlerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.julianduru.learning.lambda.crud.handlers.publisher.SavePublisherHandler::handleRequest
+      Events:
+        ApiGatewayEvent:
+          Type: Api
+          Properties:
+            Path: /publisher
+            Method: POST
+            RestApiId: !Ref ApiGatewayApi
+    Metadata:
+      BuildMethod: makefile
+
+  FindPublishersHandlerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.julianduru.learning.lambda.crud.handlers.publisher.FindPublishersHandler::handleRequest
+      Events:
+        ApiGatewayEvent:
+          Type: Api
+          Properties:
+            Path: /publisher
+            Method: GET
+            RestApiId: !Ref ApiGatewayApi
+    Metadata:
+      BuildMethod: makefile
+
+  SaveBookHandlerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.julianduru.learning.lambda.crud.handlers.book.SaveBookHandler::handleRequest
+      Events:
+        ApiGatewayEvent:
+          Type: Api
+          Properties:
+            Path: /book
+            Method: POST
+            RestApiId: !Ref ApiGatewayApi
+    Metadata:
+      BuildMethod: makefile
+
+  FindBooksHandlerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.julianduru.learning.lambda.crud.handlers.book.FindBooksHandler::handleRequest
+      Events:
+        ApiGatewayEvent:
+          Type: Api
+          Properties:
+            Path: /book
+            Method: GET
+            RestApiId: !Ref ApiGatewayApi
+    Metadata:
+      BuildMethod: makefile
+
+
+  DataSource:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      AllocatedStorage: 10
+      DBInstanceClass: db.t2.micro
+      DBInstanceIdentifier: lambdacrud
+      Engine: MySQL
+      EngineVersion: '8.0'
+      MasterUsername: !Ref DbUser
+      MasterUserPassword: !Ref DbPwd
+      DBName: !Ref DbName
+
+
+Outputs:
+  ApiURL:
+    Value: !Sub 'https://${ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/prod/'
+    Description: URL for the API endpoint
+  DBEndpoint:
+    Value: !GetAtt DataSource.Endpoint.Address
+    Export:
+      Name: DBInstanceEndpoint
+    Description: Endpoint URL for the MySQL RDS instance
+
