@@ -153,10 +153,10 @@ Outputs:
   ApiURL:
     Value: !Sub 'https://${ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/prod/'
     Description: URL for the API endpoint
-  DBEndpoint:
-    Value: !GetAtt DataSource.Endpoint.Address
-    Export:
-      Name: DBInstanceEndpoint
-    Description: Endpoint URL for the MySQL RDS instance
+#  DBEndpoint:
+#    Value: !GetAtt DataSource.Endpoint.Address
+#    Export:
+#      Name: DBInstanceEndpoint
+#    Description: Endpoint URL for the MySQL RDS instance
 
 
