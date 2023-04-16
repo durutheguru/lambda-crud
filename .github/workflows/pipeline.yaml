@@ -299,4 +299,3 @@ jobs:
             --role-arn ${PROD_CLOUDFORMATION_EXECUTION_ROLE} \
             --parameter-overrides Env=${ENV} JasyptPwd=${JASYPT_PWD} DbId=lambdacrudprod DbUser=${DATABASE_USER} DbPwd=${DATABASE_PWD}
 
-
