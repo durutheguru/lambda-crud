@@ -16,10 +16,7 @@ lint = true
 [default.deploy.parameters]
 capabilities = "CAPABILITY_IAM"
 confirm_changeset = true
-resolve_s3 = true
 
-[default.package.parameters]
-resolve_s3 = true
 
 [default.sync.parameters]
 watch = true
@@ -33,7 +30,6 @@ warm_containers = "EAGER"
 
 [prod.deploy.parameters]
 stack_name = "lambda-crud"
-resolve_s3 = true
 s3_prefix = "lambda-crud"
 region = "us-east-1"
 confirm_changeset = true
