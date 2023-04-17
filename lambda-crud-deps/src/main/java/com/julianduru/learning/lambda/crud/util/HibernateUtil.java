@@ -27,6 +27,8 @@ public class HibernateUtil {
 
 	private SessionFactory sessionFactory;
 
+	private boolean migrationsRun;
+
 
 	public void setup() {
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -39,30 +41,26 @@ public class HibernateUtil {
 			}
 		}));
 
-		sessionFactory = buildSessionFactory();
+		buildSessionFactory();
 	}
 
 
-	private SessionFactory buildSessionFactory() {
+	private void buildSessionFactory() {
 		try {
-			if (sessionFactory == null) {
-				log.info("Building Session Factory");
+			var env = System.getenv("ENV");
+			log.info("ENV: {}", env);
+			if (StringUtils.isEmpty(env)) {
+				env = "local";
+			}
 
-				var env = System.getenv("ENV");
-				log.info("ENV: {}", env);
-				if (StringUtils.isEmpty(env)) {
-					env = "local";
-				}
+			var properties = loadProps(env);
 
-				var properties = loadProps(env);
+			if (!migrationsRun) {
+				log.info("Running Migrations..");
 				runMigration(properties);
-				initializeSessionFactory(properties);
-			}
-			else {
-				log.info("Returning existing Session Factory");
 			}
 
-			return sessionFactory;
+			initializeSessionFactory(properties);
 		} catch (Throwable ex) {
 			throw new ExceptionInInitializerError(ex);
 		}
@@ -117,7 +115,7 @@ public class HibernateUtil {
 	}
 
 
-	private static DatabaseConnection getLiquibaseDatabaseConnection(Properties connectionProperties) throws Exception {
+	private DatabaseConnection getLiquibaseDatabaseConnection(Properties connectionProperties) throws Exception {
 		var conn = DriverManager.getConnection(
 			connectionProperties.getProperty("hibernate.connection.url"),
 			connectionProperties.getProperty("hibernate.connection.username"),
@@ -127,7 +125,7 @@ public class HibernateUtil {
 	}
 
 
-	private static void runMigration(Properties properties) throws Exception {
+	private void runMigration(Properties properties) throws Exception {
 		var liquibase = new Liquibase(
 			"db/change-log.main.xml",
 			new ClassLoaderResourceAccessor(),
@@ -135,6 +133,7 @@ public class HibernateUtil {
 		);
 
 		liquibase.update();
+		migrationsRun = true;
 	}
 
 
@@ -150,11 +149,6 @@ public class HibernateUtil {
 		catch (Throwable t) {
 			throw new RuntimeException(t);
 		}
-	}
-
-
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
 	}
 
 
