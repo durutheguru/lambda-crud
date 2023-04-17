@@ -90,6 +90,9 @@ Resources:
             Path: /publisher
             Method: POST
             RestApiId: !Ref ApiGatewayApi
+      AutoPublishAlias: SavePublisherHandlerFunctionSnapStart
+      SnapStart:
+        ApplyOn: PublishedVersions
     Metadata:
       BuildMethod: makefile
 
