@@ -39,6 +39,7 @@ public abstract class BaseHandler<I, O> implements RequestHandler<I, O>, Resourc
     @Override
     public void afterRestore(org.crac.Context<? extends Resource> context) throws Exception {
         log.info("After Restore Checkpoint - {}", getClass().getName());
+        this.setup();
     }
 
 
