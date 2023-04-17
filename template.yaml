@@ -107,6 +107,9 @@ Resources:
             Path: /publisher
             Method: GET
             RestApiId: !Ref ApiGatewayApi
+      AutoPublishAlias: FPHFSnapStart
+      SnapStart:
+        ApplyOn: PublishedVersions
     Metadata:
       BuildMethod: makefile
 
@@ -121,6 +124,9 @@ Resources:
             Path: /book
             Method: POST
             RestApiId: !Ref ApiGatewayApi
+      AutoPublishAlias: SBHFSnapStart
+      SnapStart:
+        ApplyOn: PublishedVersions
     Metadata:
       BuildMethod: makefile
 
@@ -135,6 +141,9 @@ Resources:
             Path: /book
             Method: GET
             RestApiId: !Ref ApiGatewayApi
+      AutoPublishAlias: FBHFSnapStart
+      SnapStart:
+        ApplyOn: PublishedVersions
     Metadata:
       BuildMethod: makefile
 
@@ -156,10 +165,10 @@ Outputs:
   ApiURL:
     Value: !Sub 'https://${ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/prod/'
     Description: URL for the API endpoint
-#  DBEndpoint:
-#    Value: !GetAtt DataSource.Endpoint.Address
-#    Export:
-#      Name: DBInstanceEndpoint
-#    Description: Endpoint URL for the MySQL RDS instance
+  DBEndpoint:
+    Value: !GetAtt DataSource.Endpoint.Address
+    Export:
+      Name: !Sub "DBInstanceEndpoint${DbId}"
+    Description: Endpoint URL for the MySQL RDS instance
 
 
