@@ -68,13 +68,13 @@ Resources:
         AllowOrigin: "'*'"
 
 
-
   LambdaCrudLayer:
     Type: AWS::Serverless::LayerVersion
     Properties:
       ContentUri: lambda-crud-deps
       CompatibleRuntimes:
         - java11
+      RetentionPolicy: Delete
     Metadata:
       BuildMethod: java11
 
