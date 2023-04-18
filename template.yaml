@@ -113,22 +113,22 @@ Resources:
     Metadata:
       BuildMethod: makefile
 
-#  SaveBookHandlerFunction:
-#    Type: AWS::Serverless::Function
-#    Properties:
-#      Handler: com.julianduru.learning.lambda.crud.handlers.book.SaveBookHandler::handleRequest
-#      Events:
-#        ApiGatewayEvent:
-#          Type: Api
-#          Properties:
-#            Path: /book
-#            Method: POST
-#            RestApiId: !Ref ApiGatewayApi
-#      AutoPublishAlias: SBHFSnapStart
-#      SnapStart:
-#        ApplyOn: PublishedVersions
-#    Metadata:
-#      BuildMethod: makefile
+  SaveBookHandlerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.julianduru.learning.lambda.crud.handlers.book.SaveBookHandler::handleRequest
+      Events:
+        ApiGatewayEvent:
+          Type: Api
+          Properties:
+            Path: /book
+            Method: POST
+            RestApiId: !Ref ApiGatewayApi
+      AutoPublishAlias: SBHFSnapStart
+      SnapStart:
+        ApplyOn: PublishedVersions
+    Metadata:
+      BuildMethod: makefile
 
 #  FindBooksHandlerFunction:
 #    Type: AWS::Serverless::Function
