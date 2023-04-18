@@ -96,56 +96,56 @@ Resources:
     Metadata:
       BuildMethod: makefile
 
-  FindPublishersHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: com.julianduru.learning.lambda.crud.handlers.publisher.FindPublishersHandler::handleRequest
-      Events:
-        ApiGatewayEvent:
-          Type: Api
-          Properties:
-            Path: /publisher
-            Method: GET
-            RestApiId: !Ref ApiGatewayApi
-      AutoPublishAlias: FPHFSnapStart
-      SnapStart:
-        ApplyOn: PublishedVersions
-    Metadata:
-      BuildMethod: makefile
+#  FindPublishersHandlerFunction:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      Handler: com.julianduru.learning.lambda.crud.handlers.publisher.FindPublishersHandler::handleRequest
+#      Events:
+#        ApiGatewayEvent:
+#          Type: Api
+#          Properties:
+#            Path: /publisher
+#            Method: GET
+#            RestApiId: !Ref ApiGatewayApi
+#      AutoPublishAlias: FPHFSnapStart
+#      SnapStart:
+#        ApplyOn: PublishedVersions
+#    Metadata:
+#      BuildMethod: makefile
 
-  SaveBookHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: com.julianduru.learning.lambda.crud.handlers.book.SaveBookHandler::handleRequest
-      Events:
-        ApiGatewayEvent:
-          Type: Api
-          Properties:
-            Path: /book
-            Method: POST
-            RestApiId: !Ref ApiGatewayApi
-      AutoPublishAlias: SBHFSnapStart
-      SnapStart:
-        ApplyOn: PublishedVersions
-    Metadata:
-      BuildMethod: makefile
+#  SaveBookHandlerFunction:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      Handler: com.julianduru.learning.lambda.crud.handlers.book.SaveBookHandler::handleRequest
+#      Events:
+#        ApiGatewayEvent:
+#          Type: Api
+#          Properties:
+#            Path: /book
+#            Method: POST
+#            RestApiId: !Ref ApiGatewayApi
+#      AutoPublishAlias: SBHFSnapStart
+#      SnapStart:
+#        ApplyOn: PublishedVersions
+#    Metadata:
+#      BuildMethod: makefile
 
-  FindBooksHandlerFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: com.julianduru.learning.lambda.crud.handlers.book.FindBooksHandler::handleRequest
-      Events:
-        ApiGatewayEvent:
-          Type: Api
-          Properties:
-            Path: /book
-            Method: GET
-            RestApiId: !Ref ApiGatewayApi
-      AutoPublishAlias: FBHFSnapStart
-      SnapStart:
-        ApplyOn: PublishedVersions
-    Metadata:
-      BuildMethod: makefile
+#  FindBooksHandlerFunction:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      Handler: com.julianduru.learning.lambda.crud.handlers.book.FindBooksHandler::handleRequest
+#      Events:
+#        ApiGatewayEvent:
+#          Type: Api
+#          Properties:
+#            Path: /book
+#            Method: GET
+#            RestApiId: !Ref ApiGatewayApi
+#      AutoPublishAlias: FBHFSnapStart
+#      SnapStart:
+#        ApplyOn: PublishedVersions
+#    Metadata:
+#      BuildMethod: makefile
 
 
   DataSource:
