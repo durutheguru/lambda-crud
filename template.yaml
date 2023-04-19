@@ -66,6 +66,11 @@ Resources:
       StageName: prod
       Cors:
         AllowOrigin: "'*'"
+      Auth:
+        DefaultAuthorizer: CognitoAuthorizer
+        Authorizers:
+          CognitoAuthorizer:
+            UserPoolArn: "arn:aws:cognito-idp:us-east-1:058486276453:userpool/us-east-1_18h7QnNJz"
 
 
   LambdaCrudLayer:
